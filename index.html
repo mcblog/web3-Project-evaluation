@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Web3 项目可信度评分器(仅供娱乐勿做参考)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 30px;
+      color: #333;
+    }
+    h2 {
+      color: #222;
+      border-bottom: 2px solid #0077ff;
+      padding-bottom: 10px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fefefe;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+ 
+  <h2>Web3 项目可信度评分器(仅供娱乐勿做参考)</h2>
+ 
+  <form id="scoreForm">
+    <label>1. 社交媒体 (20%)：
+      <select name="social">
+        <option value="1">1 - 新注册或无内容</option>
+        <option value="2">2 - 内容少无互动</option>
+        <option value="3">3 - 有一定粉丝和互动</option>
+        <option value="4">4 - >1万粉丝，有项目关注</option>
+        <option value="5">5 - >5万粉丝，有KOL关注</option>
+      </select>
+    </label>
+ 
+    <label>2. 团队背景 (15%)：
+      <select name="team">
+        <option value="1">1 - 完全匿名</option>
+        <option value="2">2 - 部分可查</option>
+        <option value="3">3 - 普通背景</option>
+        <option value="4">4 - 业内背景</option>
+        <option value="5">5 - 大厂/知名项目背景</option>
+      </select>
+    </label>
+ 
+    <label>3. 投资情况 (15%)：
+      <select name="invest">
+        <option value="1">1 - 无融资</option>
+        <option value="2">2 - 小型不知名机构</option>
+        <option value="3">3 - 天使或种子轮</option>
+        <option value="4">4 - 有知名VC</option>
+        <option value="5">5 - 多轮融资，顶级VC</option>
+      </select>
+    </label>
+ 
+    <label>4. 官网质量 (10%)：
+      <select name="website">
+        <option value="1">1 - 粗糙或模板站</option>
+        <option value="2">2 - 基础功能</option>
+        <option value="3">3 - 有白皮书和交互</option>
+        <option value="4">4 - 设计高质量</option>
+        <option value="5">5 - 技术先进，有DApp</option>
+      </select>
+    </label>
+ 
+    <label>5. 技术实现 (15%)：
+      <select name="tech">
+        <option value="1">1 - 无代码/不开源</option>
+        <option value="2">2 - 简单代码</option>
+        <option value="3">3 - 开源，有基础架构</option>
+        <option value="4">4 - 有审计</option>
+        <option value="5">5 - 多审计+测试</option>
+      </select>
+    </label>
+ 
+    <label>6. 产品进展 (10%)：
+      <select name="progress">
+        <option value="1">1 - 仅概念</option>
+        <option value="2">2 - 有 Demo</option>
+        <option value="3">3 - 测试网已上线</option>
+        <option value="4">4 - 有初步用户</option>
+        <option value="5">5 - 主网活跃增长</option>
+      </select>
+    </label>
+ 
+    <label>7. 社区活跃度 (10%)：
+      <select name="community">
+        <option value="1">1 - 无人/机器人</option>
+        <option value="2">2 - 少量活跃</option>
+        <option value="3">3 - 日常互动良好</option>
+        <option value="4">4 - 活跃用户较多</option>
+        <option value="5">5 - 社群自治、治理积极</option>
+      </select>
+    </label>
+ 
+    <label>8. 合规透明度 (5%)：
+      <select name="compliance">
+        <option value="1">1 - 无法判断</option>
+        <option value="2">2 - 回避说明</option>
+        <option value="3">3 - 有部分披露</option>
+        <option value="4">4 - DAO 框架或部分合规</option>
+        <option value="5">5 - 完整法律支持</option>
+      </select>
+    </label>
+ 
+    <button type="button" onclick="calculateScore()">计算评分</button>
+  </form>
+ 
+  <div id="result"></div>
+ 
+  <script>
+    function calculateScore() {
+      const weights = {
+        social: 0.2, team: 0.15, invest: 0.15, website: 0.1,
+        tech: 0.15, progress: 0.1, community: 0.1, compliance: 0.05
+      };
+      let total = 0;
+      const form = document.getElementById('scoreForm');
+      for (let field in weights) {
+        const val = parseInt(form[field].value);
+        total += val * weights[field] * 20;
+      }
+ 
+      let level = '', color = '';
+      if (total < 40) { level = '🚨 Scam / 高风险'; color = '#d93025'; }
+      else if (total < 60) { level = '⚠️ 投机项目'; color = '#f9ab00'; }
+      else if (total < 80) { level = '🌱 潜力项目'; color = '#34a853'; }
+      else if (total < 90) { level = '✅ 成熟项目'; color = '#1a73e8'; }
+      else { level = '🌟 明星项目'; color = '#6a1b9a'; }
+ 
+      document.getElementById('result').innerHTML =
+        `<div style="color:${color};">总分：<strong>${total.toFixed(1)}</strong> 分 — <span>${level}</span></div>`;
+    }
+  </script>
+ 
+</body>
+</html>
+ 
